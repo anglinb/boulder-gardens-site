@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Custom</title>
+	<style type="text/css">
+/*		html { 
+		  background: url(img/boulder-gradens.jpg) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+		}*/
+		html, body{
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
+		h1, h2, h3{
+			font-family: 'Sanchez', serif;
+			color: #ffffff;
+		}
+		header{
+			background: url(img/boulder-gradens.jpg)  no-repeat center; 
+			background-size: cover;
+			height:100vh;
+			position: relative;
+		}
+		.full h2{
+			font-size: 100px;
+			padding-top: 20px;
+			margin-top: 0px;
+			margin-left: 15px;
+		}
+		.full{
+			height:100vh;
+			position: relative;
+		}
+		/* Page specific things */
+		.victor{
+			background: url(img/victor.jpg) no-repeat center;
+			background-size: cover;
+		}
+		.rings{
+			background: url(img/rings.jpg)  no-repeat center; 
+			background-size: cover;
+		}
+		.scroll-down {
+			color: #D2CFD4;
+			position: absolute;
+			right: 50%;
+			bottom: 0;
+			margin: 0px -20px 10px 0px;
+			padding: 10px 0px;
+			border-radius: 40px;
+			width: 39px;
+			text-align: center;
+			background-color: rgba(0,0,0,0.4);
+			z-index: 22222;
+			display: block;
+		}
+		video#bgvid {
+			position: absolute; right: 0; bottom: 0;
+			min-width: 100%; min-height: 100%;
+			width: auto; height: auto; z-index: -100;
+			background: url(vid/timelapse.jpg) no-repeat;
+			background-size: cover;
+
+		}
+		.player{
+			/*display: none;*/
+			position: absolute;
+			right: 0px;
+			bottom: 0px;
+			width: 75%;
+		}
+	</style>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<header>
+		<div class="scroll-down animated fadeInUp"><i class="fa fa-angle-down"></i></div>
+	</header>
+	<div class="full victor">
+		<h2>VICTOR</h2>
+		<div class="player"></div>
+	</div>
+	<div class="full rings">
+		<h2>RINGS</h2>
+		<div class="player"></div>
+	</div>
+	<div class="full">
+		<h2>REFLECTION</h2>
+		<video autoplay loop poster="vid/timelapse.jpg" id="bgvid">
+			<!-- <source src="vid/timelapse.webm" type="video/webm"> -->
+			<source src="vid/timelapse.mp4" type="video/mp4">
+		</video>
+	</div>
+
+	
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/vendor/wavesurfer.min.js"></script>
+<script type="text/javascript">
+	function playSound(){
+
+	}
+	var sound_mappings = [
+		{
+			'selector':'victor',
+			'url':'audio/intro.mp3',
+			'player':Object.create(WaveSurfer),
+			'stat':'loading'
+		},
+		{
+			'selector':'rings',
+			'url':'audio/rings.mp3',
+			'player':Object.create(WaveSurfer),
+			'stat':'loading'
+		}
+	]
+	// left: 37, up: 38, right: 39, down: 40,
+	// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+	var keys = [37, 38, 39, 40];
+
+	function preventDefault(e) {
+	  e = e || window.event;
+	  if (e.preventDefault)
+	      e.preventDefault();
+	  e.returnValue = false;  
+	}
+
+	function keydown(e) {
+	    for (var i = keys.length; i--;) {
+	        if (e.keyCode === keys[i]) {
+	            preventDefault(e);
+	            return;
+	        }
+	    }
+	}
+
+	function wheel(e) {
+	  preventDefault(e);
+	}
+
+	function disable_scroll() {
+	  if (window.addEventListener) {
+	      window.addEventListener('DOMMouseScroll', wheel, false);
+	  }
+	  window.onmousewheel = document.onmousewheel = wheel;
+	  document.onkeydown = keydown;
+	}
+
+	function enable_scroll() {
+	    if (window.removeEventListener) {
+	        window.removeEventListener('DOMMouseScroll', wheel, false);
+	    }
+	    window.onmousewheel = document.onmousewheel = document.onkeydown = null;  
+	}
+	var prevIndex = 0;
+	var playing = false; // play, pause, seekTo
+	var offsets = [];
+	var animating = false;
+	var windowHeight;
+	$(document).ready(function(){
+		// Setup
+		var fullDivs = $(".full, header").size() + 1;
+		windowHeight = $(window).height();
+		
+		for (var i = 0; i < fullDivs; i++) {
+			offsets.push(windowHeight*i);
+		};
+		// Init sound mappings
+		for (var i = 0; i < sound_mappings.length; i++) {
+			sound_mappings[i].player.init({
+			    container: document.querySelector('.full.'+sound_mappings[i].selector+' .player'),
+			    waveColor: 'white',
+			    progressColor: 'grey'
+			});
+			sound_mappings[i].player.load(sound_mappings[i].url);
+		};
+	});
+	$(window).scroll(function(e) {
+		if (animating) {
+        	// console.log('scroll happen by animate');
+    	}else if (e.originalEvent) {
+	        animating = false;
+	        $("html, body").stop();
+	    } 
+
+		// $("html, body").stop();
+	    clearTimeout($.data(this, 'scrollTimer'));
+	    if( ! animating ){
+
+		    $.data(this, 'scrollTimer', setTimeout(function() {
+		        // console.log("Haven't scrolled in 250ms!");
+		        var nearest = 99999;
+		        var index = 0;
+		        console.log("Begin Checking...");
+		        var currentScroll = $(window).scrollTop();
+		        for (var i = offsets.length - 1; i >= 0; i--) {
+		        	console.log("Checking offset: " + offsets[i]);
+		        	console.log("Current Scrool: "+currentScroll);
+		        	console.log(Math.abs(offsets[i]-currentScroll-(windowHeight)))
+		        	var distance = Math.abs(offsets[i]-currentScroll);
+		        	if(  distance < nearest ){
+		        		nearest = distance;
+		        		index = i;
+		        	}
+		        };
+		        console.log("End Checking");
+		        animating = true;
+		        disable_scroll();
+		        $("html, body").animate({
+		        	scrollTop: offsets[index]
+		        }, 1000, function(){
+		        	setTimeout(function(){enable_scroll()}, 50);
+		        	animating = false;
+		        	if( prevIndex != (index -1)){ // If we are on a new page
+		        		try{
+							sound_mappings[prevIndex].player.stop(); // Stop old one
+		        		}catch(err){
+
+		        		}
+		        		prevIndex = (index -1);
+		        		playing = false;
+		        	}
+		        	if( ! playing && sound_mappings[index - 1] != undefined ){
+		        		playing = true;
+		        		sound_mappings[index - 1].player.seekTo(0);
+		        		sound_mappings[index - 1].player.play();
+		        	}
+		        });
+		        // console.log($(window).scrollTop());
+	    	}, 250));
+	   	}
+});
+</script>
+</body>
+</html>
