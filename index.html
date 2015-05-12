@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Custom</title>
+	<title>Boulder Gardens</title>
 	<style type="text/css">
 /*		html { 
 		  background: url(img/boulder-gradens.jpg) no-repeat center center fixed; 
@@ -34,6 +34,7 @@
 		.full{
 			height:100vh;
 			position: relative;
+			
 		}
 		/* Page specific things */
 		.victor{
@@ -42,6 +43,10 @@
 		}
 		.rings{
 			background: url(img/rings.jpg)  no-repeat center; 
+			background-size: cover;
+		}
+		.dogs{
+			background: url(img/dog.jpg) no-repeat center;
 			background-size: cover;
 		}
 		.scroll-down {
@@ -89,12 +94,17 @@
 		<h2>RINGS</h2>
 		<div class="player"></div>
 	</div>
-	<div class="full">
+	<div class="full dogs">
+		<h2>DOGS</h2>
+		<div class="player"></div>
+	</div>
+	<div class="full reflection">
 		<h2>REFLECTION</h2>
 		<video autoplay loop poster="vid/timelapse.jpg" id="bgvid">
 			<!-- <source src="vid/timelapse.webm" type="video/webm"> -->
 			<source src="vid/timelapse.mp4" type="video/mp4">
 		</video>
+		<div class="player"></div>
 	</div>
 
 	
@@ -119,7 +129,23 @@
 			'url':'audio/rings.mp3',
 			'player':Object.create(WaveSurfer),
 			'stat':'loading'
+		},
+		{
+			'selector':'dogs',
+			'url':'audio/dog.mp3',
+			'player':Object.create(WaveSurfer),
+			'stat':'loading'
+		},
+		{
+			'selector':'reflection',
+			'url':'audio/reflection.mp3',
+			'player':Object.create(WaveSurfer),
+			'stat':'loading'
 		}
+		// {
+		// 	'selector':'reflection',
+		// 	'url':'audio'
+		// }
 	]
 	// left: 37, up: 38, right: 39, down: 40,
 	// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
