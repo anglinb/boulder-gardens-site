@@ -36,6 +36,15 @@
 			position: relative;
 			
 		}
+		.full p{
+			font-family: 'Sanchez', serif;
+			font-size: 20px;
+			color: white;
+			margin-left: 15px;
+		}
+		.full p a{
+			color: white;
+		}
 		/* Page specific things */
 		.victor{
 			background: url(img/victor.jpg) no-repeat center;
@@ -47,6 +56,15 @@
 		}
 		.dogs{
 			background: url(img/dog.jpg) no-repeat center;
+			background-size: cover;
+		}
+		.film{
+			/*background: #404040;*/
+			background: url(img/bg.jpg) no-repeat center;
+			background-size: cover;
+		}
+		.credits{
+			background: url(img/credits.jpg) no-repeat center;
 			background-size: cover;
 		}
 		.scroll-down {
@@ -106,12 +124,26 @@
 		</video>
 		<div class="player"></div>
 	</div>
-
+	<div class="full film">
+		<h2>FILM</h2>
+		<div style="text-align:center;">
+			<iframe width="840" height="445" style="margin:0px auto; padding-top: 0px" src="https://www.youtube.com/embed/eOurI6wXSNE" frameborder="0" allowfullscreen></iframe>
+		</div>
+	</div>
+	<div class="full credits">
+		<h2>CREDITS</h2>
+		<p><strong>Summary:</strong> Boulder Gardens is a fascinating exhibit of what Victor Paul and Garth Bowles’ imaginations look like. This is the story of how Victor Paul found peace among the amber boulders that makeup the small community off a little rocky path called God’s Way Love. </p>
+		<p>After the time and planning it took to actually make our project happen, we are happy with how it came out overall. Everyone in our group definitely brings a different skill, so we all had the ability to contribute to an important aspect of the project in some way, whether it was the creation of the documentary itself or the interactive web space. This project had quite a bit of room for creative experimenting, and we’ve had fun figuring out how to present our documentary. It was slightly difficult deciding on the best way to organize the material, though. We do wish we had known exactly what was going to be there before we went so that we could’ve had an idea of what we wanted to shoot. That way we could’ve spent less time trying to figure it out while we were there.</p>
+		<p><a href="https://www.indiegogo.com/projects/garth-s-boulder-gardens-fundraising-project">https://www.indiegogo.com/projects/garth-s-boulder-gardens-fundraising-project</a></p>
+		<p><a href="http://angeles.sierraclub.org/news/blog/2013/05/landfill_near_joshua_tree_national_park_gets_trashed">http://angeles.sierraclub.org/news/blog/2013/05/landfill_near_joshua_tree_national_park_gets_trashed</a></p>
+		<p><a href="https://www.facebook.com/BoulderGardensCA?fref=ts">https://www.facebook.com/BoulderGardensCA?fref=ts</a></p>
+	</div>
 	
 
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="js/vendor/wavesurfer.min.js"></script>
 <script type="text/javascript">
 	function playSound(){
@@ -142,10 +174,6 @@
 			'player':Object.create(WaveSurfer),
 			'stat':'loading'
 		}
-		// {
-		// 	'selector':'reflection',
-		// 	'url':'audio'
-		// }
 	]
 	// left: 37, up: 38, right: 39, down: 40,
 	// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
@@ -210,13 +238,10 @@
 	});
 	$(window).scroll(function(e) {
 		if (animating) {
-        	// console.log('scroll happen by animate');
     	}else if (e.originalEvent) {
 	        animating = false;
 	        $("html, body").stop();
 	    } 
-
-		// $("html, body").stop();
 	    clearTimeout($.data(this, 'scrollTimer'));
 	    if( ! animating ){
 
@@ -259,7 +284,6 @@
 		        		sound_mappings[index - 1].player.play();
 		        	}
 		        });
-		        // console.log($(window).scrollTop());
 	    	}, 250));
 	   	}
 });
