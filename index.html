@@ -266,8 +266,8 @@
 		        disable_scroll();
 		        $("html, body").animate({
 		        	scrollTop: offsets[index]
-		        }, 1000, function(){
-		        	setTimeout(function(){enable_scroll()}, 50);
+		        }, 300, function(){
+		        	setTimeout(function(){enable_scroll()}, 15);
 		        	animating = false;
 		        	if( prevIndex != (index -1)){ // If we are on a new page
 		        		try{
@@ -284,7 +284,7 @@
 		        		sound_mappings[index - 1].player.play();
 		        	}
 		        });
-	    	}, 250));
+	    	}, 500));
 	   	}
 });
 </script>
